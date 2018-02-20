@@ -4,6 +4,7 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET, value = "")
     public List<TaskDto> getTasks() {
-        return taskMapper.mapToTaskDtoList(service.getAllTasks());
+        return new ArrayList<>();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{taskId}")
@@ -31,8 +32,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{taskId}")
-    public boolean deleteTask(@PathVariable("taskId") String taskId) {
-        return true;
+    public HttpStatus deleteTask(@PathVariable("taskId") String taskId) {
+        return HttpStatus.OK;
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -41,7 +42,7 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createTask(TaskDto taskDto) {
-        return "New task created";
+    public HttpStatus createTask(TaskDto taskDto) {
+        return HttpStatus.CREATED;
     }
 }
