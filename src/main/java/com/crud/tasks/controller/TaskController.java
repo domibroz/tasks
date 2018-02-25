@@ -5,13 +5,13 @@ import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 @RestController
 @RequestMapping("/v1/task")
@@ -36,13 +36,13 @@ public class TaskController {
         return HttpStatus.OK;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public TaskDto updateTask(TaskDto taskDto) {
+    @RequestMapping(method = RequestMethod.PUT, consumes = APPLICATION_JSON_VALUE)
+    public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         return new TaskDto((long) 1, "Edited test title", "Test content");
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public HttpStatus createTask(TaskDto taskDto) {
-        return HttpStatus.CREATED;
+    @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
+    public void createTask(@RequestBody TaskDto taskDto) {
+        service.saveTask(taskMapper.mapToTask(taskDto));
     }
 }
