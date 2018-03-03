@@ -4,7 +4,6 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,12 +26,12 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{taskId}")
-    public TaskDto getTask(@RequestParam @PathVariable("taskId") Long taskId) throws TaskNotFoundException {
+    public TaskDto getTask(@PathVariable("taskId") Long taskId) throws TaskNotFoundException {
         return taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow(TaskNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{taskId}")
-    public void deleteTask(@RequestParam @PathVariable("taskId") Long taskId){
+    public void deleteTask(@PathVariable("taskId") Long taskId){
         service.deleteTask(taskId);
     }
 
