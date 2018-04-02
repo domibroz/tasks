@@ -1,5 +1,7 @@
 package com.crud.tasks.trello.client;
 
+
+
 import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
@@ -34,6 +36,7 @@ public class TrelloClient {
     private RestTemplate restTemplate;
 
     private URI urlBuilder() {
+
         URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/members/" + trelloConfig.getTrelloUsername() + "/boards")
                 .queryParam("key", trelloConfig.getTrelloAppKey())
                 .queryParam("token", trelloConfig.getTrelloToken())
