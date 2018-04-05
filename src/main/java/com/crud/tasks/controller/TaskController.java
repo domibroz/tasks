@@ -3,6 +3,8 @@ package com.crud.tasks.controller;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ public class TaskController {
     @Autowired
     private TaskMapper taskMapper;
 
+    @ApiOperation(value = "xxx", notes = "yyy")
     @RequestMapping(method = RequestMethod.GET, value = "")
     public List<TaskDto> getTasks() {
         return taskMapper.mapToTaskDtoList(service.getAllTasks());
@@ -30,12 +33,12 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{taskId}")
-    public void deleteTask(@PathVariable("taskId") Long taskId){
+    public void deleteTask(@PathVariable("taskId") Long taskId) {
         service.deleteTask(taskId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = APPLICATION_JSON_VALUE)
-    public TaskDto updateTask(@RequestBody TaskDto taskDto){
+    public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
