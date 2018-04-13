@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TrelloClient</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.crud.tasks.trello.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TrelloClient (com.crud.tasks.trello.client)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TrelloClient</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (18/ 21)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TrelloClient$MockitoMock$1590293021</td>
+  </tr>
+  <tr>
+    <td class="name">TrelloClient$MockitoMock$1590293021$auxiliary$jgFKwi6v</td>
+  </tr>
+  <tr>
+    <td class="name">TrelloClient$MockitoMock$1590293021$auxiliary$QyyN8kLC</td>
+  </tr>
+  <tr>
+    <td class="name">TrelloClient$MockitoMock$1590293021$auxiliary$Sw0Gbma3</td>
+  </tr>
+  <tr>
+    <td class="name">TrelloClient$MockitoMock$1590293021$auxiliary$y6GMCyXz</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (18/ 21)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.crud.tasks.trello.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.crud.tasks.domain.CreatedTrelloCardDto;
+<i>4</i>&nbsp;import com.crud.tasks.domain.TrelloBoardDto;
+<i>5</i>&nbsp;import com.crud.tasks.domain.TrelloCardDto;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import com.crud.tasks.trello.config.TrelloConfig;
+<i>9</i>&nbsp;import org.slf4j.Logger;
+<i>10</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>12</i>&nbsp;import org.springframework.stereotype.Component;
+<i>13</i>&nbsp;import org.springframework.web.client.RestClientException;
+<i>14</i>&nbsp;import org.springframework.web.client.RestTemplate;
+<i>15</i>&nbsp;import org.springframework.web.util.UriComponentsBuilder;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.net.URI;
+<i>18</i>&nbsp;import java.util.ArrayList;
+<i>19</i>&nbsp;import java.util.Arrays;
+<i>20</i>&nbsp;import java.util.List;
+<i>21</i>&nbsp;import static java.util.Optional.ofNullable;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;@Component
+<b class="fc"><i>26</i>&nbsp;public class TrelloClient {</b>
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;    public static final Logger LOGGER = LoggerFactory.getLogger(TrelloClient.class);</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Autowired
+<i>31</i>&nbsp;    private TrelloConfig trelloConfig;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Autowired
+<i>34</i>&nbsp;    private RestTemplate restTemplate;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private URI urlBuilder() {
+<b class="fc"><i>37</i>&nbsp;        URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + &quot;/members/&quot; + trelloConfig.getTrelloUsername() + &quot;/boards&quot;)</b>
+<b class="fc"><i>38</i>&nbsp;                .queryParam(&quot;key&quot;, trelloConfig.getTrelloAppKey())</b>
+<b class="fc"><i>39</i>&nbsp;                .queryParam(&quot;token&quot;, trelloConfig.getTrelloToken())</b>
+<b class="fc"><i>40</i>&nbsp;                .queryParam(&quot;fields&quot;, &quot;name,id&quot;)</b>
+<b class="fc"><i>41</i>&nbsp;                .queryParam(&quot;lists&quot;, &quot;all&quot;).build().encode().toUri();</b>
+<b class="fc"><i>42</i>&nbsp;        return url;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public List&lt;TrelloBoardDto&gt; getTrelloBoards(){
+<i>46</i>&nbsp;        try {
+<b class="fc"><i>47</i>&nbsp;            TrelloBoardDto[] boardsResponse = restTemplate.getForObject(urlBuilder(), TrelloBoardDto[].class);</b>
+<b class="fc"><i>48</i>&nbsp;            return Arrays.asList(ofNullable(boardsResponse).orElse(new TrelloBoardDto[0]));</b>
+<b class="nc"><i>49</i>&nbsp;        }catch (RestClientException e) {</b>
+<b class="nc"><i>50</i>&nbsp;            LOGGER.error(e.getMessage(), e);</b>
+<b class="nc"><i>51</i>&nbsp;            return new ArrayList&lt;&gt;();</b>
+<i>52</i>&nbsp;        }
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public CreatedTrelloCardDto createNewCard(TrelloCardDto trelloCardDto) {
+<b class="fc"><i>56</i>&nbsp;        URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + &quot;/cards&quot;)</b>
+<b class="fc"><i>57</i>&nbsp;                .queryParam(&quot;key&quot;, trelloConfig.getTrelloAppKey())</b>
+<b class="fc"><i>58</i>&nbsp;                .queryParam(&quot;token&quot;, trelloConfig.getTrelloToken())</b>
+<b class="fc"><i>59</i>&nbsp;                .queryParam(&quot;name&quot;, trelloCardDto.getName())</b>
+<b class="fc"><i>60</i>&nbsp;                .queryParam(&quot;desc&quot;, trelloCardDto.getDescription())</b>
+<b class="fc"><i>61</i>&nbsp;                .queryParam(&quot;pos&quot;, trelloCardDto.getPos())</b>
+<b class="fc"><i>62</i>&nbsp;                .queryParam(&quot;idList&quot;, trelloCardDto.getListId()).build().encode().toUri();</b>
+<b class="fc"><i>63</i>&nbsp;        return restTemplate.postForObject(url, null, CreatedTrelloCardDto.class);</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-04-05 15:49</div>
+</div>
+</body>
+</html>

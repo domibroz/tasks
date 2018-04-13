@@ -11,12 +11,16 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
+plugins {
+	id "com.gorylenko.gradle-git-properties" version "1.4.21"
+}
+
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-//apply plugin: 'war'
+apply plugin: "com.gorylenko.gradle-git-properties"
 
 group = 'com.crud'
 version = '0.0.1-SNAPSHOT'
@@ -32,15 +36,17 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.projectlombok:lombok:1.16.20')
-	compile('mysql:mysql-connector-java')
-	//compile('org.postgresql:postgresql')
+	//compile('mysql:mysql-connector-java')
+	compile('org.postgresql:postgresql')
 	compile('org.springframework.boot:spring-boot-starter-mail')
 	compile('io.springfox:springfox-swagger2:2.7.0')
 	compile('io.springfox:springfox-swagger-ui:2.7.0')
 	compile('com.google.code.gson:gson:2.8.2')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile group: 'pl.project13.maven', name: 'git-commit-id-plugin', version: '2.2.4'
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 
 	//providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 }
