@@ -36,4 +36,15 @@ public class MailCreatorService {
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
+
+    public String everydayEmail(String message) {
+        Context context = new Context();
+        context.setVariable("message", message);
+        context.setVariable("trello_url", "https://trello.com");
+        context.setVariable("button", "Check on Trello");
+        context.setVariable("goodbye", "Have a nice day!");
+        context.setVariable("admin_config", adminConfig);
+        return templateEngine.process("mail/everyday-mail", context);
+
+    }
 }
